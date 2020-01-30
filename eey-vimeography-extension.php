@@ -49,6 +49,11 @@ if (!class_exists('EEY_VIMEOGRAPHY_EXT_Class')) {
                 </div>
 <?php
             }
+            else {
+                ?>
+                <p>The video you are looking for was not found...</p>
+                <?php
+            }
             ob_clean();
         }
         // Register Front End Assets
