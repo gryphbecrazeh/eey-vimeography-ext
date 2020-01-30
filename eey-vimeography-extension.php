@@ -37,6 +37,7 @@ if (!class_exists('EEY_VIMEOGRAPHY_EXT_Class')) {
         // Short Code
         function eey_dynamic_vimeo()
         {
+            ob_start();
             if (isset($_GET['video'])) {
                 $video = $_GET['video'];
                 $vimeo_url = "https://player.vimeo.com/video/$video";
@@ -48,6 +49,7 @@ if (!class_exists('EEY_VIMEOGRAPHY_EXT_Class')) {
                 </div>
 <?php
             }
+            ob_clean();
         }
         // Register Front End Assets
         function register_frontend_assets()
