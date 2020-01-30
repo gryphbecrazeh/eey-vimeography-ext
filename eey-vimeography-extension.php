@@ -21,6 +21,8 @@ defined('EEY_VIMEOGRAPHY_EXT_TD') or define('EEY_VIMEOGRAPHY_EXT_TD', 'eey-ve');
 defined('EEY_VIMEOGRAPHY_EXT_JS_DIR') or define('EEY_VIMEOGRAPHY_EXT_JS_DIR', plugin_dir_url(__FILE__) . 'js');
 // PLUGIN DIRECTORY URL
 defined('EEY_VIMEOGRAPHY_EXT_URL') or define('EEY_VIMEOGRAPHY_EXT_URL', plugin_dir_url(__FILE__));
+// PLUGIN CSS DIRECTORY
+defined('EEY_VIMEOGRAPHY_EXT_CSS_DIR') or define('EEY_VIMEOGRAPHY_EXT_CSS_DIR', plugin_dir_url(__FILE__) . 'css');
 
 if (!class_exists('EEY_VIMEOGRAPHY_EXT_Class')) {
     class EEY_VIMEOGRAPHY_EXT_Class
@@ -28,7 +30,7 @@ if (!class_exists('EEY_VIMEOGRAPHY_EXT_Class')) {
         function __construct()
         {
             // Include scripts necessary to run, Register front end assets
-            add_action('wp_enqueue_scripts', array($this, 'eey_reporting_include_scripts'));
+            add_action('wp_enqueue_scripts', array($this, 'eey_vimeography_ext_include_scripts'));
             // Add Short Code
             add_shortcode('eey_dynamic_vimeo', array($this, 'eey_dynamic_vimeo'));
         }
@@ -47,21 +49,26 @@ if (!class_exists('EEY_VIMEOGRAPHY_EXT_Class')) {
 <?php
             }
         }
-        // Include Scripts
-        function eey_reporting_include_scripts()
+        // Register Front End Assets
+        function register_frontend_assets()
         {
-            wp_enqueue_script('eey-vimeography-ext.js', plugins_url('/js/eey-vimeography-ext.js', __FILE__));
-            // EEY_VIMEOGRAPHY_EXT_Class::register_frontend_assets();
             $frontend_js_obj = array(
 
                 'default_error_message' => __('This field is required', EEY_VIMEOGRAPHY_EXT_TD),
 
                 'ajax_url' => admin_url('admin-ajax.php'),
 
-                'ajax_nonce' => wp_create_nonce('frontend-ajax-nonce'),
-
+                'ajax_nonce' => wp_create_nonce('frontend-ajax-nonce')
             );
+            wp_register_style('eey-vimeography-ext.css', plugins_url('/css/eey-vimeography-ext.css', __FILE__));
+            wp_enqueue_style('eey-vimeography-ext.css');
             wp_localize_script('eey-vimeography-ext.js', 'frontend_js_obj', $frontend_js_obj);
+        }
+        // Include Scripts
+        function eey_vimeography_ext_include_scripts()
+        {
+            wp_enqueue_script('eey-vimeography-ext.js', plugins_url('/js/eey-vimeography-ext.js', __FILE__));
+            EEY_VIMEOGRAPHY_EXT_Class::register_frontend_assets();
         }
     }
     $eey_vimeography_ext_obj = new EEY_VIMEOGRAPHY_EXT_Class();

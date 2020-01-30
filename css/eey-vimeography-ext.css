@@ -1,0 +1,9 @@
+.vimeography-player .box {
+    position: absolute;
+    right:1em;
+    bottom: 2.5em;
+}
+.vimeography-player .box button {
+    padding: .5em;
+    font-size: .7em;
+}
